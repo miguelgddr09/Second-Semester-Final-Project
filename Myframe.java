@@ -29,7 +29,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	//export import buttons
 	JButton save, open, clear;
 	//colored buttons 
-	JButton redButton,blueButton,greenButton,orangeButton,purpleButton,pinkButton;
+	JButton redButton,blueButton,greenButton,orangeButton,purpleButton,pinkButton,currentSliderColor;
 	//color sliders
 	JSlider redSlider, greenSlider, blueSlider;
 	//Canvas canvas;
@@ -43,24 +43,24 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		return width;
 	}
 	
-	private void setRedValue() {
-		redValue=redSlider.getValue();
+	private void setRedValue(int x) {
+		redValue=x;
 	}
 	
 	public int getRedValue() {
 		return redValue;
 	}
 	
-	private void setGreenValue() {
-		greenValue=greenSlider.getValue();
+	private void setGreenValue(int x) {
+		greenValue=x;
 	}
 	
 	public int getGreenValue() {
 		return greenValue;
 	}
 	
-	private void setBlueValue() {
-		blueValue = blueSlider.getValue();
+	private void setBlueValue(int x) {
+		blueValue = x;
 	}
 	
 	public int getBlueValue() {
@@ -143,6 +143,11 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		pinkButton.setFocusable(false);
 		pinkButton.addActionListener(this);
 		
+		currentSliderColor = new JButton();
+		currentSliderColor.setBackground(new Color(getRedValue(), getGreenValue(), getBlueValue()));
+		currentSliderColor.setPreferredSize(new Dimension(30,165));
+		currentSliderColor.setFocusable(false);
+		
 		//sliders
 		redSlider = new JSlider(0,255,0);
 		greenSlider = new JSlider(0,255,0);
@@ -201,6 +206,9 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		JPanel gridPanelColors = new JPanel();
 		gridPanelColors.setLayout(new GridLayout(3,3,2,2));
 		gridPanelColors.setBackground(Color.WHITE);
+		JPanel gridPanelCurrentColor = new JPanel();
+		gridPanelCurrentColor.setLayout(new FlowLayout(1,1,1));
+		gridPanelCurrentColor.setBackground(Color.white);
 		
 		//subpanel1
 		subpanelButtons.setBackground(Color.black);
@@ -230,10 +238,13 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		gridPanelColors.add(blueButton);
 		gridPanelColors.add(purpleButton);
 		gridPanelColors.add(orangeButton);
+		//gridPanelColors.add(currentSliderColor);
 		
+		gridPanelCurrentColor.add(currentSliderColor);
 		
 		subpanelButtons.add(gridPanelButtons);
 		subpanelButtons.add(gridPanelColors);
+		subpanelButtons.add(gridPanelCurrentColor);
 		/*subpanelButtons.add(save);
 		subpanelButtons.add(open);
 		subpanelButtons.add(clear);*/
@@ -270,6 +281,8 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		// TODO Auto-generated method stub
-		
+		setRedValue(redSlider.getValue());
+		setGreenValue(greenSlider.getValue());
+		setBlueValue(blueSlider.getValue());
 	}
 }
