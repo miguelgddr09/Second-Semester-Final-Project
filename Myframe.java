@@ -80,9 +80,29 @@ public class Myframe extends JFrame implements ActionListener {
 		panel1.setPreferredSize(new Dimension(200,800));
 		panel2.setPreferredSize(new Dimension(1000,800));
 		
-		panel1.add(save);
-		panel1.add(open);
-		panel1.add(clear);
+		//subpanels
+		JPanel subpanelButtons = new JPanel();
+		JPanel subpanelSliders = new JPanel();
+		
+		subpanelButtons.setBackground(Color.black);
+		subpanelButtons.setPreferredSize(new Dimension(200,400));
+		subpanelSliders.setBackground(Color.black);
+		subpanelSliders.setPreferredSize(new Dimension(200,400));
+		
+		
+		panel1.setLayout(new BorderLayout());
+		
+		panel1.add(subpanelButtons, BorderLayout.NORTH);
+		panel1.add(subpanelSliders, BorderLayout.SOUTH);
+		
+		
+		subpanelButtons.add(save);
+		subpanelButtons.add(open);
+		subpanelButtons.add(clear);
+		
+		//subpanelSliders.add();
+		//subpanelSliders.add();
+		//subpanelSliders.add();
 		
 		//canvas = new Canvas();
 		
