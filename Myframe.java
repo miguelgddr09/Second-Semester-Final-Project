@@ -12,15 +12,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class Myframe extends JFrame implements ActionListener {
+public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	
 	//set size for frame (1200x800) is the size of the projector
 	private int height = 1200;
 	private int width = 800;
 	
 	JButton save, open, clear;
+	JSlider redSlider, greenSlider, blueSlider;
 	//Canvas canvas;
 	//private int's need get() functions so no one can alter them
 	public int getHeight() {
@@ -46,29 +48,52 @@ public class Myframe extends JFrame implements ActionListener {
 		save.setBackground(Color.white);
 		save.setText("SAVE");
 		save.setFocusable(false);
-		//save.setHorizontalAlignment(JButton.LEFT);
-		//save.setVerticalAlignment(JButton.TOP);
-		//save.setBounds(10, 780, 80, 80);
 		save.addActionListener((ActionListener) this);
 		
 		open = new JButton();
 		open.setBackground(Color.white);
 		open.setText("OPEN");
 		open.setFocusable(false);
-		//open.setHorizontalAlignment(JButton.CENTER);
-		//open.setVerticalAlignment(JButton.TOP);
-		//open.setBounds(90, 780, 80, 80);
-		//open.setBounds(100, 100, 100, 100);
 		open.addActionListener(this);
 		
 		clear = new JButton();
 		clear.setBackground(Color.white);
 		clear.setText("CLEAR");
 		clear.setFocusable(false);
-		//clear.setHorizontalAlignment(JButton.RIGHT);
-		//clear.setVerticalAlignment(JButton.TOP);
-		//clear.setBounds(120, 780, 80, 80);
 		clear.addActionListener(this);
+		
+		//sliders
+		redSlider = new JSlider(0,255,0);
+		greenSlider = new JSlider(0,255,0);
+		blueSlider = new JSlider(0,255,0);
+		
+		
+		redSlider.setPreferredSize(new Dimension(200,100));
+		redSlider.setPaintTicks(true);
+		//redSlider.setMinorTickSpacing(20);
+		redSlider.setPaintTrack(true);
+		redSlider.setMajorTickSpacing(51);
+		redSlider.setOpaque(false);
+		redSlider.setPaintLabels(true);
+		redSlider.setOrientation(SwingConstants.HORIZONTAL);
+		
+		greenSlider.setPreferredSize(new Dimension(200,100));
+		greenSlider.setPaintTicks(true);
+		//greenSlider.setMinorTickSpacing(10);
+		greenSlider.setPaintTrack(true);
+		greenSlider.setMajorTickSpacing(51);
+		greenSlider.setOpaque(false);
+		greenSlider.setPaintLabels(true);
+		greenSlider.setOrientation(SwingConstants.HORIZONTAL);
+		
+		blueSlider.setPreferredSize(new Dimension(200,100));
+		blueSlider.setPaintTicks(true);
+		//blueSlider.setMinorTickSpacing(10);
+		blueSlider.setPaintTrack(true);
+		blueSlider.setMajorTickSpacing(51);
+		blueSlider.setOpaque(false);
+		blueSlider.setPaintLabels(true);
+		blueSlider.setOrientation(SwingConstants.HORIZONTAL);
 		
 		//we crate and personalize each panel (for this project ill use 2 panels East and West)
 		JPanel panel1 = new JPanel();
@@ -100,9 +125,9 @@ public class Myframe extends JFrame implements ActionListener {
 		subpanelButtons.add(open);
 		subpanelButtons.add(clear);
 		
-		//subpanelSliders.add();
-		//subpanelSliders.add();
-		//subpanelSliders.add();
+		subpanelSliders.add(redSlider);
+		subpanelSliders.add(greenSlider);
+		subpanelSliders.add(blueSlider);
 		
 		//canvas = new Canvas();
 		
@@ -127,5 +152,11 @@ public class Myframe extends JFrame implements ActionListener {
 		if(e.getSource()==clear) {
 			System.out.println("Please finish this quick");
 		}
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
