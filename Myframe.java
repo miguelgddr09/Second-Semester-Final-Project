@@ -8,7 +8,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeListener;
 
 public class Myframe extends JFrame implements ActionListener {
 	
@@ -17,7 +21,7 @@ public class Myframe extends JFrame implements ActionListener {
 	private int width = 800;
 	
 	JButton save, open, clear;
-	
+	//Canvas canvas;
 	//private int's need get() functions so no one can alter them
 	public int getHeight() {
 		return height;
@@ -42,15 +46,18 @@ public class Myframe extends JFrame implements ActionListener {
 		save.setBackground(Color.white);
 		save.setText("SAVE");
 		save.setFocusable(false);
-		save.setSize(100,100);
-		//save.setBounds(100, 100, 100, 100);
+		//save.setHorizontalAlignment(JButton.LEFT);
+		//save.setVerticalAlignment(JButton.TOP);
+		//save.setBounds(10, 780, 80, 80);
 		save.addActionListener((ActionListener) this);
 		
 		open = new JButton();
 		open.setBackground(Color.white);
 		open.setText("OPEN");
 		open.setFocusable(false);
-		open.setSize(100,100);
+		//open.setHorizontalAlignment(JButton.CENTER);
+		//open.setVerticalAlignment(JButton.TOP);
+		//open.setBounds(90, 780, 80, 80);
 		//open.setBounds(100, 100, 100, 100);
 		open.addActionListener(this);
 		
@@ -58,7 +65,9 @@ public class Myframe extends JFrame implements ActionListener {
 		clear.setBackground(Color.white);
 		clear.setText("CLEAR");
 		clear.setFocusable(false);
-		clear.setSize(100,100);
+		//clear.setHorizontalAlignment(JButton.RIGHT);
+		//clear.setVerticalAlignment(JButton.TOP);
+		//clear.setBounds(120, 780, 80, 80);
 		clear.addActionListener(this);
 		
 		//we crate and personalize each panel (for this project ill use 2 panels East and West)
@@ -68,13 +77,16 @@ public class Myframe extends JFrame implements ActionListener {
 		
 		panel1.setBackground(Color.black);
 		panel2.setBackground(Color.gray);
-		
 		panel1.setPreferredSize(new Dimension(200,800));
 		panel2.setPreferredSize(new Dimension(1000,800));
 		
 		panel1.add(save);
 		panel1.add(open);
 		panel1.add(clear);
+		
+		//canvas = new Canvas();
+		
+		//panel2.add(canvas);
 		
 		frame.add(panel1,BorderLayout.WEST);
 		frame.add(panel2,BorderLayout.EAST);
@@ -96,9 +108,4 @@ public class Myframe extends JFrame implements ActionListener {
 			System.out.println("Please finish this quick");
 		}
 	}
-	
-	
-	
-	
-	
 }
