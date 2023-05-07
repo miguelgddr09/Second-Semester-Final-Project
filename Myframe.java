@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +25,14 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	private int height = 1200;
 	private int width = 800;
 	
-	private int redValue, greenValue, blueValue;
+	//colores
+	Colores coloredRect = new Colores();
+	private Color currentColor;
+	
+	private int redValue = 0, greenValue = 0, blueValue = 0;
+	
+	//labels
+	JLabel redLabel, greenLabel,blueLabel;
 	
 	//export import buttons
 	JButton save, open, clear;
@@ -32,7 +40,10 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	JButton redButton,blueButton,greenButton,orangeButton,purpleButton,pinkButton,currentSliderColor;
 	//color sliders
 	JSlider redSlider, greenSlider, blueSlider;
-	//Canvas canvas;
+	
+	JPanel currentColPanel;
+	
+	Canvas canvas;
 	
 	//private int's need get() functions so no one can alter them
 	public int getHeight() {
@@ -41,30 +52,6 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	
 	public int getWidth() {
 		return width;
-	}
-	
-	private void setRedValue(int x) {
-		redValue=x;
-	}
-	
-	public int getRedValue() {
-		return redValue;
-	}
-	
-	private void setGreenValue(int x) {
-		greenValue=x;
-	}
-	
-	public int getGreenValue() {
-		return greenValue;
-	}
-	
-	private void setBlueValue(int x) {
-		blueValue = x;
-	}
-	
-	public int getBlueValue() {
-		return blueValue;
 	}
 	
 	//The constructor uses a BorderLayout as a manager so i can make it cute
@@ -81,107 +68,94 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		save = new JButton();
 		save.setBackground(Color.white);
 		save.setText("SAVE");
-		save.setPreferredSize(new Dimension(190,20));
+		save.setPreferredSize(new Dimension(193,20));
 		save.setFocusable(false);
 		save.addActionListener((ActionListener) this);
 		
 		open = new JButton();
 		open.setBackground(Color.white);
 		open.setText("OPEN");
-		open.setPreferredSize(new Dimension(190,20));
+		open.setPreferredSize(new Dimension(193,20));
 		open.setFocusable(false);
 		open.addActionListener(this);
 		
 		clear = new JButton();
 		clear.setBackground(Color.white);
 		clear.setText("CLEAR");
-		clear.setPreferredSize(new Dimension(190,20));
+		clear.setPreferredSize(new Dimension(193,20));
 		clear.setFocusable(false);
 		clear.addActionListener(this);
 		
 		//color buttons
-		//redButton,blueButton,greenButton,orangeButton,purpleButton,pinkButton;
 		redButton = new JButton();
-		//redButton.setBackground(new Color(0,0,0));
 		redButton.setBackground(new Color(255,102,102));
-		redButton.setPreferredSize(new Dimension(55,55));
+		redButton.setPreferredSize(new Dimension(63,63));
 		redButton.setFocusable(false);
 		redButton.addActionListener(this);
 		
 		greenButton = new JButton();
-		//greenButton.setBackground(new Color(0,0,0));
 		greenButton.setBackground(new Color(0,204,0));
 		greenButton.setPreferredSize(new Dimension(55,55));
 		greenButton.setFocusable(false);
 		greenButton.addActionListener(this);
 		
 		blueButton = new JButton();
-		//blueButton.setBackground(new Color(0,0,0));
 		blueButton.setBackground(new Color(153,204,255));
 		blueButton.setPreferredSize(new Dimension(55,55));
 		blueButton.setFocusable(false);
 		blueButton.addActionListener(this);
 		
 		orangeButton = new JButton();
-		//orangeButton.setBackground(new Color(0,0,0));
 		orangeButton.setBackground(new Color(255,178,102));
-		orangeButton.setPreferredSize(new Dimension(55,55));
+		orangeButton.setPreferredSize(new Dimension(63,63));
 		orangeButton.setFocusable(false);
 		orangeButton.addActionListener(this);
 		
 		purpleButton= new JButton();
-		//purpleButton.setBackground(new Color(0,0,0));
 		purpleButton.setBackground(new Color(255, 0, 255));
 		purpleButton.setPreferredSize(new Dimension(55,55));
 		purpleButton.setFocusable(false);
 		purpleButton.addActionListener(this);
 		
 		pinkButton = new JButton();
-		//pinkButton.setBackground(new Color(0,0,0));
 		pinkButton.setBackground(new Color(255,153,255));
 		pinkButton.setPreferredSize(new Dimension(55,55));
 		pinkButton.setFocusable(false);
 		pinkButton.addActionListener(this);
 		
-		currentSliderColor = new JButton();
-		currentSliderColor.setBackground(new Color(getRedValue(), getGreenValue(), getBlueValue()));
-		currentSliderColor.setPreferredSize(new Dimension(30,165));
-		currentSliderColor.setFocusable(false);
-		
 		//sliders
-		redSlider = new JSlider(0,255,0);
-		greenSlider = new JSlider(0,255,0);
-		blueSlider = new JSlider(0,255,0);
+		redSlider = new JSlider(0,255,redValue);
+		greenSlider = new JSlider(0,255,greenValue);
+		blueSlider = new JSlider(0,255,blueValue);
 		
 		
 		redSlider.setPreferredSize(new Dimension(200,100));
 		redSlider.setPaintTicks(true);
-		//redSlider.setMinorTickSpacing(20);
 		redSlider.setPaintTrack(true);
 		redSlider.setMajorTickSpacing(51);
 		redSlider.setOpaque(false);
 		redSlider.setPaintLabels(true);
 		redSlider.setOrientation(SwingConstants.HORIZONTAL);
+		redSlider.addChangeListener(this);
 		
 		greenSlider.setPreferredSize(new Dimension(200,100));
 		greenSlider.setPaintTicks(true);
-		//greenSlider.setMinorTickSpacing(10);
 		greenSlider.setPaintTrack(true);
 		greenSlider.setMajorTickSpacing(51);
 		greenSlider.setOpaque(false);
 		greenSlider.setPaintLabels(true);
 		greenSlider.setOrientation(SwingConstants.HORIZONTAL);
+		greenSlider.addChangeListener(this);
 		
 		blueSlider.setPreferredSize(new Dimension(200,100));
 		blueSlider.setPaintTicks(true);
-		//blueSlider.setMinorTickSpacing(10);
 		blueSlider.setPaintTrack(true);
 		blueSlider.setMajorTickSpacing(51);
 		blueSlider.setOpaque(false);
 		blueSlider.setPaintLabels(true);
 		blueSlider.setOrientation(SwingConstants.HORIZONTAL);
+		blueSlider.addChangeListener(this);
 		
-		//we crate and personalize each panel (for this project ill use 2 panels East and West)
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
 		
@@ -195,13 +169,11 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		JPanel subpanelButtons = new JPanel();
 		JPanel subpanelSliders = new JPanel();
 		
-		//subpanelButtons.setBorder(new LineBorder(Color.red,3));
 		subpanelButtons.setLayout(new FlowLayout(3,3,3));
 		
 		//grid panels
 		JPanel gridPanelButtons = new JPanel();
 		gridPanelButtons.setLayout(new GridLayout(3,1,2,2));
-		//gridPanelButtons.setBorder(new LineBorder(Color.red));
 		gridPanelButtons.setBackground(Color.white);
 		JPanel gridPanelColors = new JPanel();
 		gridPanelColors.setLayout(new GridLayout(3,3,2,2));
@@ -210,10 +182,19 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		gridPanelCurrentColor.setLayout(new FlowLayout(1,1,1));
 		gridPanelCurrentColor.setBackground(Color.white);
 		
+		currentColPanel = new JPanel();
+		currentColPanel.setPreferredSize(new Dimension(50,100));
+		currentColPanel.setBackground(Color.white);
+		
+		
+		
 		//subpanel1
 		subpanelButtons.setBackground(Color.black);
 		subpanelButtons.setPreferredSize(new Dimension(200,400));
 		
+		
+		//canvas
+		canvas = new Canvas();
 		
 		
 		//Subpanel2
@@ -225,6 +206,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		
 		panel1.add(subpanelButtons, BorderLayout.NORTH);
 		panel1.add(subpanelSliders, BorderLayout.SOUTH);
+		panel2.add(canvas);
 		
 		
 		//adding the buttons to each layout
@@ -238,30 +220,34 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		gridPanelColors.add(blueButton);
 		gridPanelColors.add(purpleButton);
 		gridPanelColors.add(orangeButton);
-		//gridPanelColors.add(currentSliderColor);
+		gridPanelColors.add(currentColPanel);
 		
-		gridPanelCurrentColor.add(currentSliderColor);
 		
 		subpanelButtons.add(gridPanelButtons);
 		subpanelButtons.add(gridPanelColors);
-		subpanelButtons.add(gridPanelCurrentColor);
-		/*subpanelButtons.add(save);
-		subpanelButtons.add(open);
-		subpanelButtons.add(clear);*/
+		
 		
 		subpanelSliders.add(redSlider);
 		subpanelSliders.add(greenSlider);
 		subpanelSliders.add(blueSlider);
 		
-		//canvas = new Canvas();
-		
-		//panel2.add(canvas);
 		
 		frame.add(panel1,BorderLayout.WEST);
 		frame.add(panel2,BorderLayout.EAST);
 		
 		frame.pack();
 		frame.setLocationRelativeTo(null);
+	}
+	
+	public Color currentColor(int red, int green, int blue) {
+		Color burner = new Color(red,green,blue);
+		currentColor = burner;
+		return burner;
+	}
+	
+	public JPanel coloredPanel(int red, int green, int blue) {
+		currentColPanel.setBackground(currentColor);
+		return currentColPanel;
 	}
 
 	@Override
@@ -281,8 +267,11 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		// TODO Auto-generated method stub
-		setRedValue(redSlider.getValue());
-		setGreenValue(greenSlider.getValue());
-		setBlueValue(blueSlider.getValue());
+		int red = redSlider.getValue();
+		int green = greenSlider.getValue();
+		int blue = blueSlider.getValue();
+		redValue = redSlider.getValue();
+		greenValue = greenSlider.getValue();
+		blueValue = blueSlider.getValue();
 	}
 }
