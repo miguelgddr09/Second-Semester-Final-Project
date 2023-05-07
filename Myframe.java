@@ -36,7 +36,8 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	//export import buttons
 	JButton save, open, clear;
 	//colored buttons 
-	JButton redButton,blueButton,greenButton,orangeButton,purpleButton,pinkButton,currentSliderColor;
+	JButton grayButton,blueButton,blackButton,orangeButton,
+	purpleButton,pinkButton,currentSliderColor;
 	//color sliders
 	JSlider redSlider, greenSlider, blueSlider;
 	
@@ -86,17 +87,17 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		clear.addActionListener(this);
 		
 		//color buttons
-		redButton = new JButton();
-		redButton.setBackground(new Color(255,102,102));
-		redButton.setPreferredSize(new Dimension(63,63));
-		redButton.setFocusable(false);
-		redButton.addActionListener(this);
+		grayButton = new JButton();
+		grayButton.setBackground(new Color(128,128,128));
+		grayButton.setPreferredSize(new Dimension(63,63));
+		grayButton.setFocusable(false);
+		grayButton.addActionListener(this);
 		
-		greenButton = new JButton();
-		greenButton.setBackground(new Color(0,204,0));
-		greenButton.setPreferredSize(new Dimension(55,55));
-		greenButton.setFocusable(false);
-		greenButton.addActionListener(this);
+		blackButton = new JButton();
+		blackButton.setBackground(new Color(0,0,0));
+		blackButton.setPreferredSize(new Dimension(55,55));
+		blackButton.setFocusable(false);
+		blackButton.addActionListener(this);
 		
 		blueButton = new JButton();
 		blueButton.setBackground(new Color(153,204,255));
@@ -192,7 +193,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		
 		
 		//subpanel1
-		subpanelButtons.setBackground(Color.black);
+		subpanelButtons.setBackground(Color.white);
 		subpanelButtons.setPreferredSize(new Dimension(200,400));
 		
 		
@@ -201,7 +202,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		
 		
 		//Subpanel2
-		subpanelSliders.setBackground(Color.black);
+		subpanelSliders.setBackground(Color.white);
 		subpanelSliders.setPreferredSize(new Dimension(200,400));
 		
 		panel1.setLayout(new BorderLayout());
@@ -217,8 +218,8 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		gridPanelButtons.add(open);
 		gridPanelButtons.add(clear);
 		
-		gridPanelColors.add(redButton);
-		gridPanelColors.add(greenButton);
+		gridPanelColors.add(grayButton);
+		gridPanelColors.add(blackButton);
 		gridPanelColors.add(pinkButton);
 		gridPanelColors.add(blueButton);
 		gridPanelColors.add(purpleButton);
@@ -254,13 +255,55 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 			fileChooser.setCurrentDirectory(new File("."));
 			fileChooser.showSaveDialog(null);//select file to save
 		}
-		if(e.getSource()==open) {
+		else if(e.getSource()==open) {
 			System.out.println("Or dont");
 			JFileChooser fileChooser= new JFileChooser();
 			fileChooser.showOpenDialog(null); //select file to open
 		}
-		if(e.getSource()==clear) {
+		else if(e.getSource()==clear) {
 			System.out.println("Please finish this quick");
+		}
+		
+		if(e.getSource()==grayButton) {
+			redValue = 128;
+			greenValue = 128;
+			blueValue = 128;
+			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
+		}
+		if(e.getSource()==blackButton) {
+			//0,204,0
+			redValue = 0;
+			greenValue = 0;
+			blueValue = 0;
+			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
+		}
+		if(e.getSource()==blueButton) {
+			//153,204,255
+			redValue = 153;
+			greenValue = 204;
+			blueValue = 255;
+			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
+		}
+		if(e.getSource()==orangeButton) {
+			//255,178,102
+			redValue = 255;
+			greenValue = 178;
+			blueValue = 102;
+			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
+		}
+		if(e.getSource()==purpleButton) {
+			//255, 0, 255
+			redValue = 255;
+			greenValue = 0;
+			blueValue = 255;
+			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
+		}
+		if(e.getSource()==pinkButton) {
+			//(255,153,255)
+			redValue = 255;
+			greenValue = 153;
+			blueValue = 255;
+			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
 		}
 	}
 
@@ -268,7 +311,11 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	public void stateChanged(ChangeEvent e) {
 		// TODO Auto-generated method stub
 		redValueLabel.setText("R: "+redSlider.getValue());
+		redValue=redSlider.getValue();
 		greenValueLabel.setText("G: "+greenSlider.getValue());
+		greenValue=greenSlider.getValue();
 		blueValueLabel.setText("B: "+blueSlider.getValue());
+		blueValue=blueSlider.getValue();
+		System.out.println(redValue + " " + greenValue + " " + blueValue);
 	}
 }
