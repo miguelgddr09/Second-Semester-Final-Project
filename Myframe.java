@@ -8,8 +8,10 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,14 +27,11 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	private int height = 1200;
 	private int width = 800;
 	
-	//colores
-	Colores coloredRect = new Colores();
-	private Color currentColor;
-	
+	//COLORES
 	private int redValue = 0, greenValue = 0, blueValue = 0;
 	
 	//labels
-	JLabel redLabel, greenLabel,blueLabel;
+	JLabel redValueLabel, greenValueLabel, blueValueLabel;
 	
 	//export import buttons
 	JButton save, open, clear;
@@ -137,6 +136,8 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		redSlider.setPaintLabels(true);
 		redSlider.setOrientation(SwingConstants.HORIZONTAL);
 		redSlider.addChangeListener(this);
+		//label for value
+		redValueLabel = new JLabel();
 		
 		greenSlider.setPreferredSize(new Dimension(200,100));
 		greenSlider.setPaintTicks(true);
@@ -146,6 +147,8 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		greenSlider.setPaintLabels(true);
 		greenSlider.setOrientation(SwingConstants.HORIZONTAL);
 		greenSlider.addChangeListener(this);
+		//label for value
+		greenValueLabel = new JLabel();
 		
 		blueSlider.setPreferredSize(new Dimension(200,100));
 		blueSlider.setPaintTicks(true);
@@ -155,6 +158,8 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		blueSlider.setPaintLabels(true);
 		blueSlider.setOrientation(SwingConstants.HORIZONTAL);
 		blueSlider.addChangeListener(this);
+		//label for value
+		blueValueLabel = new JLabel();
 		
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
@@ -182,9 +187,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		gridPanelCurrentColor.setLayout(new FlowLayout(1,1,1));
 		gridPanelCurrentColor.setBackground(Color.white);
 		
-		currentColPanel = new JPanel();
-		currentColPanel.setPreferredSize(new Dimension(50,100));
-		currentColPanel.setBackground(Color.white);
+		
 		
 		
 		
@@ -220,7 +223,6 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		gridPanelColors.add(blueButton);
 		gridPanelColors.add(purpleButton);
 		gridPanelColors.add(orangeButton);
-		gridPanelColors.add(currentColPanel);
 		
 		
 		subpanelButtons.add(gridPanelButtons);
@@ -228,8 +230,11 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		
 		
 		subpanelSliders.add(redSlider);
+		subpanelSliders.add(redValueLabel);
 		subpanelSliders.add(greenSlider);
+		subpanelSliders.add(greenValueLabel);
 		subpanelSliders.add(blueSlider);
+		subpanelSliders.add(blueValueLabel);
 		
 		
 		frame.add(panel1,BorderLayout.WEST);
@@ -239,25 +244,20 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		frame.setLocationRelativeTo(null);
 	}
 	
-	public Color currentColor(int red, int green, int blue) {
-		Color burner = new Color(red,green,blue);
-		currentColor = burner;
-		return burner;
-	}
-	
-	public JPanel coloredPanel(int red, int green, int blue) {
-		currentColPanel.setBackground(currentColor);
-		return currentColPanel;
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource()==save) {
 			System.out.println("Please kill yourself");
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setCurrentDirectory(new File("."));
+			fileChooser.showSaveDialog(null);//select file to save
 		}
 		if(e.getSource()==open) {
 			System.out.println("Or dont");
+			JFileChooser fileChooser= new JFileChooser();
+			fileChooser.showOpenDialog(null); //select file to open
 		}
 		if(e.getSource()==clear) {
 			System.out.println("Please finish this quick");
@@ -267,11 +267,8 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		// TODO Auto-generated method stub
-		int red = redSlider.getValue();
-		int green = greenSlider.getValue();
-		int blue = blueSlider.getValue();
-		redValue = redSlider.getValue();
-		greenValue = greenSlider.getValue();
-		blueValue = blueSlider.getValue();
+		redValueLabel.setText("R: "+redSlider.getValue());
+		greenValueLabel.setText("G: "+greenSlider.getValue());
+		blueValueLabel.setText("B: "+blueSlider.getValue());
 	}
 }
