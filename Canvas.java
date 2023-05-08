@@ -18,7 +18,8 @@ public class Canvas extends JPanel implements MouseMotionListener, MouseListener
 	private final int ROWS = 25;
 	private final int COLUMNS = 25;
 	private Color[][] casillas = new Color[ROWS][COLUMNS];
-	Myframe frame = new Myframe();
+	
+	Colors functionForColors = new Colors();;
 	
 	//x y cordinates
 	
@@ -97,7 +98,7 @@ public class Canvas extends JPanel implements MouseMotionListener, MouseListener
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		//paintPixel(x,y,getCurrColor());
+		setColor(x,y,functionForColors.getCurrColor());
 	}
 
 	@Override
