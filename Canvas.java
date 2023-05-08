@@ -12,93 +12,83 @@ import javax.swing.JPanel;
 
 public class Canvas extends JPanel implements MouseMotionListener, MouseListener{
 	
-	private static BufferedImage imagen;
-	private static Graphics gfx;
-	private final int PIXEL_SIZE = 40;
-	private final int ROWS = 25;
-	private final int COLUMNS = 25;
-	private Color[][] casillas = new Color[ROWS][COLUMNS];
-	
-	Colors functionForColors = new Colors();;
-	
-	//x y cordinates
-	
 	private int x,y;
+	static BufferedImage img;
+	static Graphics gfx;	
+	private final static int PIXEL_SIZE = 40;
+	Colors colorObject = new Colors();
 	
-	private void resetCanvas() {
-		for (int i = 0; i < ROWS; i++) {
-			for (int j = 0; j < COLUMNS; j++) {
-				casillas[i][j] = Color.WHITE;
-			}
-		}
-		repaint();
+	public Canvas() {		
+		addMouseMotionListener(this);
+		setBackground(Color.white);
+		img = new BufferedImage(1000, 800, BufferedImage.TYPE_INT_RGB);
+		gfx = img.createGraphics();
+		this.addMouseListener(this);
+		drawBackground(PIXEL_SIZE, Color.white);
+		drawSquareGrid(PIXEL_SIZE, Color.black);
 	}
 	
-	public void paintPixel(int row, int col, Color color) {
-		gfx.setColor(color);
-		gfx.fillRect(col * PIXEL_SIZE, row * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
-		repaint();
-	}
-	
-	public void setColor(int row, int col, Color color) {
-		casillas[row][col] = color;
-		repaint();
-	}
-	
+	private static void drawSquareGrid(int size, Color c) {
+        for (int i = 0; i < 30; i++) {
+            for (int j = 0; j < 30; j++) {                
+            	gfx.setColor(c);
+            	gfx.drawRect(i * PIXEL_SIZE, j * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+            }
+        }
+    }
+    private static void drawBackground(int size, Color c) {
+    	for (int i = 0; i < 30; i++) {
+            for (int j = 0; j < 30; j++) {
+            	gfx.setColor(c);
+            	gfx.fillRect(i * PIXEL_SIZE, j * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);                
+            }
+        }
+    }
+    
+    private static void putPixel(int x, int y, Color c){       
+    	gfx.setColor(c);
+    	gfx.fillRect(x * PIXEL_SIZE, y * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);    
+     }
+    private static void fillRect(int x, int y, int width, int height, Color c){
+    	gfx.setColor(c);
+    	gfx.fillRect(x * PIXEL_SIZE, y * PIXEL_SIZE, width*PIXEL_SIZE, height*PIXEL_SIZE);
+    }
+	 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(imagen, 0, 0, null);
-		for (int i = 0; i < ROWS; i++) {
-			for (int j = 0; j < COLUMNS; j++) {
-				g.setColor(Color.BLACK);
-				g.drawRect(j * PIXEL_SIZE, i * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
-			}
-		}
+		
+		g.drawImage(img, 0, 0, null);
+	    g.setColor(Color.yellow);
+	    g.fillOval(x-5, y-5, 10, 10);
+	    //g.fillRect(x, y, PIXEL_SIZE, PIXEL_SIZE);
+	    //g.setColor(colorObject.getCurrColor());
 	}
-	
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(COLUMNS * PIXEL_SIZE, ROWS * PIXEL_SIZE);
-	}
-	
-	public void setImage(BufferedImage imagenSet) {
-		imagen = imagenSet;
-		gfx = imagen.createGraphics();
-		resetCanvas();
-	}
-	
-	public Graphics getGfx() {
-		return gfx;
-	}
-	
-	public BufferedImage getImagen() {
-		return imagen;
-	}
-	
-	 //public static void main(String[] args) {
-        //Canvas canvas = new Canvas();
-        //canvas.paintComponent(gfx);
-    //}
 
+	public void setImage(BufferedImage image) {
+		img = image;
+	}
+	
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
 		x = e.getX(); //get the x and y coordinates of
-		y = e.getY();
+		y = e.getY(); //the mouse click point
 		
 		repaint();
+	}
+	
+	public Graphics getGraphic() {
+		return gfx;
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		setColor(x,y,functionForColors.getCurrColor());
+		gfx.setColor(colorObject.getCurrColor());
+		gfx.fillRect(x, y, PIXEL_SIZE, PIXEL_SIZE);
 	}
 
 	@Override
