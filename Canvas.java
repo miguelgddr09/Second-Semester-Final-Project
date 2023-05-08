@@ -4,12 +4,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-public class Canvas extends JPanel implements MouseMotionListener{
+public class Canvas extends JPanel implements MouseMotionListener, MouseListener{
 	
 	private static BufferedImage imagen;
 	private static Graphics gfx;
@@ -17,6 +18,7 @@ public class Canvas extends JPanel implements MouseMotionListener{
 	private final int ROWS = 25;
 	private final int COLUMNS = 25;
 	private Color[][] casillas = new Color[ROWS][COLUMNS];
+	Myframe frame = new Myframe();
 	
 	//x y cordinates
 	
@@ -85,6 +87,39 @@ public class Canvas extends JPanel implements MouseMotionListener{
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		x = e.getX(); //get the x and y coordinates of
+		y = e.getY();
+		
+		repaint();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		//paintPixel(x,y,getCurrColor());
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
