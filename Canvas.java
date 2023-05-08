@@ -12,79 +12,95 @@ import javax.swing.JPanel;
 
 public class Canvas extends JPanel implements MouseMotionListener, MouseListener{
 	
-	private static BufferedImage imagen;
-	private static Graphics gfx;
-	private final int PIXEL_SIZE = 40;
-	private final int ROWS = 20;
-	private final int COLUMNS = 25;
-	private Color[][] casillas = new Color[ROWS][COLUMNS];
 	private int x,y;
+	static BufferedImage img;
+	static Graphics gfx;
+	private static int PIXEL_SIZE = 40;
+	Colors colorFunction;
+	Color paintPlease = new Color(0,0,0);
+	//f
 	
-	Colors colorsFunctions;
 	
-	private void resetCanvas() {
-		for (int i = 0; i < ROWS; i++) {
-			for (int j = 0; j < COLUMNS; j++) {
-				casillas[i][j] = Color.WHITE;
-			}
-		}
-		repaint();
+	public Canvas() {		
+		addMouseMotionListener(this);
+		addMouseListener(this);
+		setBackground(Color.white);
+		img = new BufferedImage(1200, 800, BufferedImage.TYPE_INT_RGB);
+		gfx = img.createGraphics();
+		drawBackground(30,Color.white);
+		drawSquareGrid(30, Color.black);
+		colorFunction = new Colors();	
+		
 	}
-	
-	public void paintPixel(int row, int col, Color color) {
-		gfx.setColor(color);
-		gfx.fillRect(col * PIXEL_SIZE, row * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
-		repaint();
-	}
-	
-	public void setColor(int row, int col, Color color) {
-		casillas[row][col] = color;
-		repaint();
-	}
-	
+	 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(imagen, 0, 0, null);
-		for (int i = 0; i < ROWS; i++) {
-			for (int j = 0; j < COLUMNS; j++) {
-				g.setColor(Color.BLACK);
-				g.drawRect(j * PIXEL_SIZE, i * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
-			}
-		}
+		
+		g.drawImage(img, 0, 0, null);
+	    g.setColor(Color.yellow);
+	    g.fillOval(x-5, y-5, 10, 10);
 	}
+
+	public void setImage(BufferedImage image) {
+		img = image;
+	}
+	private static void drawSquareGrid(int size, Color c) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {                
+                gfx.setColor(c);
+                gfx.drawRect(i * PIXEL_SIZE, j * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+            }
+        }
+    }
+    private static void drawBackground(int size, Color c) {
+    	for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                gfx.setColor(c);
+                gfx.fillRect(i * PIXEL_SIZE, j * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);                
+            }
+        }
+    }
+    
+    public Color getPaint(Color c) {
+    	paintPlease = c;
+    	return paintPlease;
+    }
 	
 	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(COLUMNS * PIXEL_SIZE, ROWS * PIXEL_SIZE);
-	}
-	
-	/*
-	 * for (int filas = 0; fila < filas; fila++) {
-            for (int col = 0; col < cols; col++) {
-                JPanel cuadrado = cuadrado[fila][col];
-                cuadrado.addMouseListener(new MouseAdapter() {
-                      cuadrado.setBackground(lapiz con current color);
-	 * */
-	
-	public void setImage(BufferedImage imagenSet) {
-		addMouseMotionListener(this);
-		imagen = imagenSet;
-		gfx = imagen.createGraphics();
-		resetCanvas();
-	}
-	
-	public Graphics getGfx() {
-		return gfx;
-	}
-	
-	public BufferedImage getImagen() {
-		return imagen;
+	public void mouseDragged(MouseEvent e) {
 	}
 
 	@Override
+	public void mouseMoved(MouseEvent e) {
+		x = e.getX(); //get the x and y coordinates of
+		y = e.getY(); //the mouse click point
+		
+		repaint();
+	}
+	
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
+		
+		while(x%40!=0) {
+			if(x%40>=20) {
+				x++;
+			}
+			else if(x%40<20) {
+				x--;
+			}
+		}
+		while(y%40!=0) {
+			if(y%40>=20) {
+				y++;
+			}
+			else if(y%40<20) {
+				y--;
+			}
+		}
 		System.out.println(x + " "+ y);
+		gfx.setColor(paintPlease);
+		gfx.fillRect(x, y, PIXEL_SIZE, PIXEL_SIZE);
 	}
 
 	@Override
@@ -110,16 +126,10 @@ public class Canvas extends JPanel implements MouseMotionListener, MouseListener
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+	
+	public Graphics getGraphic() {
+		return gfx;
 	}
 
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }
