@@ -6,9 +6,6 @@ public class Colors {
 	Color currentColor;
 	private int redValue = 0, greenValue = 0, blueValue = 0;
 	
-	public Color getCurrColor() {
-		return currentColor;
-	}
 	
 	public void setCurrentColor(int x, int y, int z) {
 		Color burner = new Color(x,y,z);
@@ -19,4 +16,10 @@ public class Colors {
 		System.out.println(redValue + " "+ greenValue + " " + blueValue);
 		System.out.println(currentColor);
 	}
+	
+	public Color getCurrColor() {
+		return currentColor;
+	}
+	
+	
 }
