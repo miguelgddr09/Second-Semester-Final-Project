@@ -44,7 +44,9 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	JPanel panel1, panel2, subpanelButtons, subpanelSliders,gridPanelButtons, 
 	gridPanelColors, gridPanelCurrentColor, currentColorPanel;
 	Canvas canvas;
-	Color currentColor = new Color(0,0,0);
+	//Color currentColor = new Color(0,0,0);
+	Colors functionsForPaint;
+	//setCurrentColor
 	
 	//private int's need get() functions so no one can alter them
 	public int getHeight() {
@@ -54,9 +56,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	public int getWidth() {
 		return width;
 	}
-	public Color getCurrColor() {
-		return currentColor;
-	}
+	
 	
 	//The constructor uses a BorderLayout as a manager so i can make it cute
 	Myframe(){
@@ -68,11 +68,13 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		frame.setResizable(false);
 		frame.setVisible(true);
 		
+		functionsForPaint = new Colors();
+		
 		insideFunction();
 		outsideFunctions();
 		
 		frame.add(panel1,BorderLayout.WEST);
-		frame.add(panel2,BorderLayout.EAST);
+		frame.add(canvas,BorderLayout.EAST);
 		
 		frame.pack();
 		frame.setLocationRelativeTo(null);
@@ -218,7 +220,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		
 		//canvas
 		canvas = new Canvas();
-		
+		canvas.setPreferredSize(new Dimension(1000,800));
 		
 		//Subpanel2
 		subpanelSliders.setBackground(Color.white);
@@ -259,7 +261,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	}
 	
 	public JPanel setCurrentPanel() {
-		currentColorPanel.setBackground(currentColor);
+		currentColorPanel.setBackground(functionsForPaint.getCurrColor());
 		return currentColorPanel;
 	}
 
@@ -286,8 +288,8 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 			greenValue = 128;
 			blueValue = 128;
 			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
-			Color changedColors = new Color(redValue, greenValue, blueValue);
-			currentColor = changedColors;
+			//Color changedColors = new Color(redValue, greenValue, blueValue);
+			functionsForPaint.setCurrentColor(redValue, greenValue, blueValue);
 			setCurrentPanel();
 		}
 		if(e.getSource()==blackButton) {
@@ -297,7 +299,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 			blueValue = 0;
 			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
 			Color changedColors = new Color(redValue, greenValue, blueValue);
-			currentColor = changedColors;
+			functionsForPaint.setCurrentColor(redValue, greenValue, blueValue);
 			setCurrentPanel();
 		}
 		if(e.getSource()==blueButton) {
@@ -307,7 +309,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 			blueValue = 255;
 			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
 			Color changedColors = new Color(redValue, greenValue, blueValue);
-			currentColor = changedColors;
+			functionsForPaint.setCurrentColor(redValue, greenValue, blueValue);
 			setCurrentPanel();
 		}
 		if(e.getSource()==orangeButton) {
@@ -317,7 +319,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 			blueValue = 102;
 			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
 			Color changedColors = new Color(redValue, greenValue, blueValue);
-			currentColor = changedColors;
+			functionsForPaint.setCurrentColor(redValue, greenValue, blueValue);
 			setCurrentPanel();
 		}
 		if(e.getSource()==purpleButton) {
@@ -327,7 +329,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 			blueValue = 255;
 			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
 			Color changedColors = new Color(redValue, greenValue, blueValue);
-			currentColor = changedColors;
+			functionsForPaint.setCurrentColor(redValue, greenValue, blueValue);
 			setCurrentPanel();
 		}
 		if(e.getSource()==pinkButton) {
@@ -337,7 +339,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 			blueValue = 255;
 			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
 			Color changedColors = new Color(redValue, greenValue, blueValue);
-			currentColor = changedColors;
+			functionsForPaint.setCurrentColor(redValue, greenValue, blueValue);
 			setCurrentPanel();
 		}
 	}
@@ -353,7 +355,8 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		blueValue=blueSlider.getValue();
 		System.out.println(redValue + " " + greenValue + " " + blueValue);
 		Color changedColors = new Color(redValue, greenValue, blueValue);
-		currentColor = changedColors;
+		functionsForPaint.setCurrentColor(redValue, greenValue, blueValue);
+		System.out.println(functionsForPaint.getCurrColor());
 		setCurrentPanel();
 	}
 }
