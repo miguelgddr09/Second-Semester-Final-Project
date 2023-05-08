@@ -42,8 +42,9 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	JSlider redSlider, greenSlider, blueSlider;
 	//JPanels 
 	JPanel panel1, panel2, subpanelButtons, subpanelSliders,gridPanelButtons, 
-	gridPanelColors, gridPanelCurrentColor;
+	gridPanelColors, gridPanelCurrentColor, currentColorPanel;
 	Canvas canvas;
+	Color currentColor = new Color(0,0,0);
 	
 	//private int's need get() functions so no one can alter them
 	public int getHeight() {
@@ -52,6 +53,9 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	
 	public int getWidth() {
 		return width;
+	}
+	public Color getCurrColor() {
+		return currentColor;
 	}
 	
 	//The constructor uses a BorderLayout as a manager so i can make it cute
@@ -74,7 +78,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		frame.setLocationRelativeTo(null);
 	}
 	
-	
+//this is for the buttons sliders and labels
 	public void insideFunction() {
 		//create the buttons
 				save = new JButton();
@@ -101,7 +105,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 				//color buttons
 				grayButton = new JButton();
 				grayButton.setBackground(new Color(128,128,128));
-				grayButton.setPreferredSize(new Dimension(63,63));
+				grayButton.setPreferredSize(new Dimension(55,55));
 				grayButton.setFocusable(false);
 				grayButton.addActionListener(this);
 				
@@ -119,7 +123,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 				
 				orangeButton = new JButton();
 				orangeButton.setBackground(new Color(255,178,102));
-				orangeButton.setPreferredSize(new Dimension(63,63));
+				orangeButton.setPreferredSize(new Dimension(55,5));
 				orangeButton.setFocusable(false);
 				orangeButton.addActionListener(this);
 				
@@ -174,7 +178,8 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 				//label for value
 				blueValueLabel = new JLabel();
 	}
-	
+
+//this creates the panels 
 	public void outsideFunctions() {
 		panel1 = new JPanel();
 		panel2 = new JPanel();
@@ -191,6 +196,8 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		
 		subpanelButtons.setLayout(new FlowLayout(3,3,3));
 		
+		currentColorPanel = new JPanel();
+		
 		//grid panels
 		gridPanelButtons = new JPanel();
 		gridPanelButtons.setLayout(new GridLayout(3,1,2,2));
@@ -202,14 +209,12 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		gridPanelCurrentColor.setLayout(new FlowLayout(1,1,1));
 		gridPanelCurrentColor.setBackground(Color.white);
 		
-		
-		
-		
-		
 		//subpanel1
 		subpanelButtons.setBackground(Color.white);
 		subpanelButtons.setPreferredSize(new Dimension(200,400));
 		
+		currentColorPanel.setBackground(Color.white);
+		currentColorPanel.setPreferredSize(new Dimension(50,170));
 		
 		//canvas
 		canvas = new Canvas();
@@ -242,6 +247,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		
 		subpanelButtons.add(gridPanelButtons);
 		subpanelButtons.add(gridPanelColors);
+		subpanelButtons.add(currentColorPanel);
 		
 		
 		subpanelSliders.add(redSlider);
@@ -250,6 +256,11 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		subpanelSliders.add(greenValueLabel);
 		subpanelSliders.add(blueSlider);
 		subpanelSliders.add(blueValueLabel);
+	}
+	
+	public JPanel setCurrentPanel() {
+		currentColorPanel.setBackground(currentColor);
+		return currentColorPanel;
 	}
 
 	@Override
@@ -275,6 +286,9 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 			greenValue = 128;
 			blueValue = 128;
 			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
+			Color changedColors = new Color(redValue, greenValue, blueValue);
+			currentColor = changedColors;
+			setCurrentPanel();
 		}
 		if(e.getSource()==blackButton) {
 			//0,204,0
@@ -282,6 +296,9 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 			greenValue = 0;
 			blueValue = 0;
 			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
+			Color changedColors = new Color(redValue, greenValue, blueValue);
+			currentColor = changedColors;
+			setCurrentPanel();
 		}
 		if(e.getSource()==blueButton) {
 			//153,204,255
@@ -289,6 +306,9 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 			greenValue = 204;
 			blueValue = 255;
 			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
+			Color changedColors = new Color(redValue, greenValue, blueValue);
+			currentColor = changedColors;
+			setCurrentPanel();
 		}
 		if(e.getSource()==orangeButton) {
 			//255,178,102
@@ -296,6 +316,9 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 			greenValue = 178;
 			blueValue = 102;
 			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
+			Color changedColors = new Color(redValue, greenValue, blueValue);
+			currentColor = changedColors;
+			setCurrentPanel();
 		}
 		if(e.getSource()==purpleButton) {
 			//255, 0, 255
@@ -303,6 +326,9 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 			greenValue = 0;
 			blueValue = 255;
 			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
+			Color changedColors = new Color(redValue, greenValue, blueValue);
+			currentColor = changedColors;
+			setCurrentPanel();
 		}
 		if(e.getSource()==pinkButton) {
 			//(255,153,255)
@@ -310,6 +336,9 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 			greenValue = 153;
 			blueValue = 255;
 			System.out.println(redValue + " "+ greenValue+" "+blueValue+"\n");
+			Color changedColors = new Color(redValue, greenValue, blueValue);
+			currentColor = changedColors;
+			setCurrentPanel();
 		}
 	}
 
@@ -323,5 +352,8 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		blueValueLabel.setText("B: "+blueSlider.getValue());
 		blueValue=blueSlider.getValue();
 		System.out.println(redValue + " " + greenValue + " " + blueValue);
+		Color changedColors = new Color(redValue, greenValue, blueValue);
+		currentColor = changedColors;
+		setCurrentPanel();
 	}
 }
