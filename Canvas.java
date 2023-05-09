@@ -9,7 +9,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class Canvas extends JPanel implements MouseMotionListener, MouseListener{
@@ -47,7 +49,7 @@ public class Canvas extends JPanel implements MouseMotionListener, MouseListener
 	public void setImage(BufferedImage image) {
 		img = image;
 	}
-	private static void drawSquareGrid(int size, Color c) {
+	static void drawSquareGrid(int size, Color c) {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {                
                 gfx.setColor(c);
@@ -69,6 +71,11 @@ public class Canvas extends JPanel implements MouseMotionListener, MouseListener
 		img = new BufferedImage(1200, 800, BufferedImage.TYPE_INT_RGB);
 		gfx = img.createGraphics();
 		drawBackground(30,Color.white);
+		drawSquareGrid(30, Color.black);
+    }
+    public void openImage(BufferedImage image) {
+    	img = image;
+    	gfx=image.createGraphics();
 		drawSquareGrid(30, Color.black);
     }
     
