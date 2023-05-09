@@ -6,8 +6,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -302,6 +304,19 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 			e.printStackTrace();
 		}
 	}
+	
+	public void readFile(BufferedImage image, String filename) {
+		try {
+			File openFile = new File(filename);
+			image = new BufferedImage(1200,800,BufferedImage.TYPE_3BYTE_BGR);
+			image = ImageIO.read(openFile);
+			canvas.openImage(image);
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -365,7 +380,6 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			fileChooser.setDialogTitle("Save file");*/
 			//only jpeg or gif or png files
-			//FileNameExtensionFilter restrictJPG = new FileNameExtensionFilter("Save jpg", "jpg");
 			//FileNameExtensionFilter restrictPNG = new FileNameExtensionFilter("Save png", "png");
 			//FileNameExtensionFilter restrictGIF = new FileNameExtensionFilter("Save gif", "gif");
 			//fileChooser.showSaveDialog(null);//select file to save
@@ -373,13 +387,15 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		else if(e.getSource()==open) {
 			System.out.println("Or dont");
 			JFileChooser fileChooser= new JFileChooser();
-			fileChooser.setAcceptAllFileFilterUsed(false);
+			//fileChooser.setAcceptAllFileFilterUsed(false);
 			fileChooser.setDialogTitle("open file");
 			//only jpeg or gif or png files
-			//FileNameExtensionFilter restrictJPG = new FileNameExtensionFilter("Open jpg", "jpg");
-			//FileNameExtensionFilter restrictPNG = new FileNameExtensionFilter("Open png", "png");
-			//FileNameExtensionFilter restrictGIF = new FileNameExtensionFilter("Open gif", "gif");
-			fileChooser.showOpenDialog(null); //select file to open
+			FileNameExtensionFilter restrictIMAGE = new FileNameExtensionFilter("Open image", "jpg", "png","gif");
+			int response = fileChooser.showOpenDialog(null); //select file to open
+			if(response == fileChooser.APPROVE_OPTION) {
+				readFile(canvas.getImage(), fileChooser.getSelectedFile().getAbsolutePath());
+			}
+			
 		}
 		else if(e.getSource()==clear) {
 			System.out.println("Please finish this quick");
@@ -470,4 +486,4 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		System.out.println(functionsForPaint.getCurrColor());
 		setCurrentPanel();
 	}
-
+}
