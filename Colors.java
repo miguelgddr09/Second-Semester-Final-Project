@@ -21,5 +21,4 @@ public class Colors {
 		return currentColor;
 	}
 	
-	
 }
