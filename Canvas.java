@@ -3,22 +3,25 @@ package finalProject;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import javax.swing.JPanel;
 
 public class Canvas extends JPanel implements MouseMotionListener, MouseListener{
 	
 	private int x,y;
-	static BufferedImage img;
-	static Graphics gfx;
-	private static int PIXEL_SIZE = 40;
+	protected static BufferedImage img;
+	protected static Graphics2D gfx;
+	protected static int PIXEL_SIZE = 40;
 	Colors colorFunction;
-	Color paintPlease = new Color(0,0,0);
-	//f
+	protected Color paintPlease = new Color(0,0,0);
+	//file
+	
 	
 	
 	public Canvas() {		
@@ -61,10 +64,23 @@ public class Canvas extends JPanel implements MouseMotionListener, MouseListener
         }
     }
     
+    public void clearCanvas() {
+    	setBackground(Color.white);
+		img = new BufferedImage(1200, 800, BufferedImage.TYPE_INT_RGB);
+		gfx = img.createGraphics();
+		drawBackground(30,Color.white);
+		drawSquareGrid(30, Color.black);
+    }
+    
     public Color getPaint(Color c) {
     	paintPlease = c;
     	return paintPlease;
     }
+    
+    public BufferedImage getImage() {
+    	return img;
+    }
+    
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
@@ -83,20 +99,22 @@ public class Canvas extends JPanel implements MouseMotionListener, MouseListener
 		// TODO Auto-generated method stub
 		
 		while(x%40!=0) {
-			if(x%40>=20) {
+			/*if(x%40>=20) {
 				x++;
 			}
 			else if(x%40<20) {
 				x--;
-			}
+			}*/
+			x--;
 		}
 		while(y%40!=0) {
-			if(y%40>=20) {
+			/*if(y%40>=20) {
 				y++;
 			}
 			else if(y%40<20) {
 				y--;
-			}
+			}*/
+			y--;
 		}
 		System.out.println(x + " "+ y);
 		gfx.setColor(paintPlease);
@@ -106,7 +124,6 @@ public class Canvas extends JPanel implements MouseMotionListener, MouseListener
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -130,6 +147,5 @@ public class Canvas extends JPanel implements MouseMotionListener, MouseListener
 	public Graphics getGraphic() {
 		return gfx;
 	}
-
 	
 }
