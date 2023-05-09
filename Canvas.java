@@ -91,6 +91,29 @@ public class Canvas extends JPanel implements MouseMotionListener, MouseListener
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		x=e.getX();
+		y=e.getY();
+		while(x%40!=0) {
+			/*if(x%40>=20) {
+				x++;
+			}
+			else if(x%40<20) {
+				x--;
+			}*/
+			x--;
+		}
+		while(y%40!=0) {
+			/*if(y%40>=20) {
+				y++;
+			}
+			else if(y%40<20) {
+				y--;
+			}*/
+			y--;
+		}
+		gfx.setColor(paintPlease);
+		gfx.fillRect(x, y, PIXEL_SIZE, PIXEL_SIZE);
+		repaint();
 	}
 
 	@Override
