@@ -9,32 +9,39 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Myframe extends JFrame implements ActionListener, ChangeListener {
+	
+	JFrame frame;
 	
 	//set size for frame (1200x800) is the size of the projector
 	private int height = 1200;
 	private int width = 800;
 	
 	//COLORES
-	private int redValue = 0, greenValue = 0, blueValue = 0;
+	protected int redValue = 0, greenValue = 0, blueValue = 0;
 	
 	//labels
 	JLabel redValueLabel, greenValueLabel, blueValueLabel;
 	
 	//export import buttons
-	JButton save, open, clear;
+	JButton save, open, clear, png, jpg, gif;
 	//colored buttons 
 	JButton grayButton,blueButton,blackButton,orangeButton,
 	purpleButton,pinkButton,currentSliderColor;
@@ -48,6 +55,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	Colors functionsForPaint;
 	Color lapiz;
 	//setCurrentColor
+	protected String filename = "", extension = "";
 	
 	//private int's need get() functions so no one can alter them
 	public int getHeight() {
@@ -61,7 +69,7 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 	
 	//The constructor uses a BorderLayout as a manager so i can make it cute
 	Myframe(){
-		JFrame frame = new JFrame();
+		frame = new JFrame();
 		frame.setTitle("Pixel art: Final Project");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(getHeight(),getWidth());
@@ -181,6 +189,26 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 				//label for value
 				blueValueLabel = new JLabel();
 	}
+	
+	/*public void saveImage() {
+		switch(extension) {
+		case "jpg":
+			try {
+				ImageIO.write(null, extension, null);
+			}catch(IOException ex) {
+				System.err.println("Problem occurred...");
+			}
+			break;
+			
+		case "png": 
+			
+			break;
+			
+		case "gif": 
+			
+			break;
+		}
+	}*/
 
 //this creates the panels 
 	public void outsideFunctions() {
@@ -213,18 +241,19 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		gridPanelCurrentColor.setBackground(Color.white);
 		
 		//subpanel1
-		subpanelButtons.setBackground(Color.white);
+		subpanelButtons.setBackground(new Color(128,128,128));
 		subpanelButtons.setPreferredSize(new Dimension(200,400));
 		
-		currentColorPanel.setBackground(Color.white);
-		currentColorPanel.setPreferredSize(new Dimension(60,183));
+		currentColorPanel.setBackground(new Color(128,128,128));
+		currentColorPanel.setPreferredSize(new Dimension(60,180));
 		
 		//canvas
 		canvas = new Canvas();
 		canvas.setPreferredSize(new Dimension(1000,800));
+		canvas.setBackground(Color.black);
 		
 		//Subpanel2
-		subpanelSliders.setBackground(Color.white);
+		subpanelSliders.setBackground(new Color(128,128,128));
 		subpanelSliders.setPreferredSize(new Dimension(200,400));
 		
 		panel1.setLayout(new BorderLayout());
@@ -265,23 +294,96 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		lapiz = currentColorPanel.getBackground();
 		return currentColorPanel;
 	}
+	
+	public void saveFile(String filename, String type) {
+		try {
+			ImageIO.write(canvas.getImage(), type, new File(filename+"."+type));
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource()==save) {
-			System.out.println("Please kill yourself");
-			JFileChooser fileChooser = new JFileChooser();
+			System.out.println("Please kill yourself");		
+		    JDialog dialog = new JDialog(frame, "Chose an option...");
+		    //png, jpg, gif
+		    JPanel panelForSaving = new JPanel();
+		    jpg = new JButton("JPG");
+		    png = new JButton("PNG");
+		    gif = new JButton("GIF");
+
+		    JTextField fileNameReciever = new JTextField(10);
+		    panelForSaving.setLayout(new FlowLayout(1, 3, 1));
+		    panelForSaving.add(fileNameReciever);
+		    panelForSaving.add(jpg);
+		    panelForSaving.add(png);
+		    panelForSaving.add(gif);
+		    
+		    dialog.add(panelForSaving);
+		    
+			jpg.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					filename = fileNameReciever.getText();
+					extension = "jpg";
+					saveFile(filename, extension);
+					dialog.dispose();
+				}
+				
+			});
+			png.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					filename = fileNameReciever.getText();
+					extension = "png";
+					saveFile(filename, extension);
+					dialog.dispose();
+				}
+				
+			});
+			gif.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					filename = fileNameReciever.getText();
+					extension = "gif";
+					saveFile(filename, extension);
+					dialog.dispose();
+				}
+				
+			});
+			
+			dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			dialog.pack();
+			dialog.setLocationRelativeTo(frame);
+	        dialog.setVisible(true);
+			
+			/*JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setCurrentDirectory(new File("."));
-			fileChooser.showSaveDialog(null);//select file to save
+			fileChooser.setAcceptAllFileFilterUsed(false);
+			fileChooser.setDialogTitle("Save file");*/
+			//only jpeg or gif or png files
+			//FileNameExtensionFilter restrictJPG = new FileNameExtensionFilter("Save jpg", "jpg");
+			//FileNameExtensionFilter restrictPNG = new FileNameExtensionFilter("Save png", "png");
+			//FileNameExtensionFilter restrictGIF = new FileNameExtensionFilter("Save gif", "gif");
+			//fileChooser.showSaveDialog(null);//select file to save
 		}
 		else if(e.getSource()==open) {
 			System.out.println("Or dont");
 			JFileChooser fileChooser= new JFileChooser();
+			fileChooser.setAcceptAllFileFilterUsed(false);
+			fileChooser.setDialogTitle("open file");
+			//only jpeg or gif or png files
+			//FileNameExtensionFilter restrictJPG = new FileNameExtensionFilter("Open jpg", "jpg");
+			//FileNameExtensionFilter restrictPNG = new FileNameExtensionFilter("Open png", "png");
+			//FileNameExtensionFilter restrictGIF = new FileNameExtensionFilter("Open gif", "gif");
 			fileChooser.showOpenDialog(null); //select file to open
 		}
 		else if(e.getSource()==clear) {
 			System.out.println("Please finish this quick");
+			canvas.clearCanvas();
 		}
 		
 		if(e.getSource()==grayButton) {
@@ -368,4 +470,4 @@ public class Myframe extends JFrame implements ActionListener, ChangeListener {
 		System.out.println(functionsForPaint.getCurrColor());
 		setCurrentPanel();
 	}
-}
+
